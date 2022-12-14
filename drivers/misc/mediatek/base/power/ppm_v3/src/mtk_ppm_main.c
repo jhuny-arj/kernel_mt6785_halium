@@ -642,10 +642,6 @@ int mt_ppm_main(void)
 	}
 #endif /* TODO will remove later */
 
-#ifdef CONFIG_MTK_RAM_CONSOLE
-	aee_rr_rec_ppm_step(1);
-#endif
-
 	/* update active policy's limit according to current state */
 	list_for_each_entry(pos, &ppm_main_info.policy_list, link) {
 		if ((pos->is_activated)
@@ -658,12 +654,10 @@ int mt_ppm_main(void)
 			pos->is_limit_updated = true;
 
 			for (idx = 0; idx < pos->req.cluster_num; idx++) {
-				trace_ppm_user_setting(
 					pos->policy,
 					idx,
 					pos->req.limit[idx].min_cpufreq_idx,
-					pos->req.limit[idx].max_cpufreq_idx
-				);
+					pos->req.limit[idx].max_cpufreq_idx;
 			}
 
 			ppm_unlock(&pos->lock);
@@ -1201,4 +1195,3 @@ module_exit(ppm_main_exit);
 
 MODULE_DESCRIPTION("MediaTek PPM Driver v0.1");
 MODULE_LICENSE("GPL");
-
